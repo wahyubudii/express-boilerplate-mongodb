@@ -8,6 +8,7 @@ import morgan from "./config/morgan.js";
 import ApiError from "./utils/ApiError.js";
 import { errorConverter, errorHandler } from "./middlewares/error.js";
 import httpStatus from 'http-status'
+import routes from "./routes/v1/index.js"
 
 const app = express();
 
@@ -39,7 +40,7 @@ if (config.env === "production") {
 }
 
 // v1 api routes
-// app.use("/v1", routes);
+app.use("/api/v1", routes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Hello World!" });
