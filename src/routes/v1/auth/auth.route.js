@@ -9,5 +9,6 @@ router.get("/test", (req, res) =>
   res.json({ message: "auth router connected" })
 );
 router.post("/register", validate(authValidation.register), authController.register);
+router.post("/login", validate(authValidation.login), authController.login);
 
 export default router;

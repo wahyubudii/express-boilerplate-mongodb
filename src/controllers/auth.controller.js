@@ -4,11 +4,15 @@ import { authService } from "../services/index.js";
 
 const register = expressAsyncHandler(async (req, res) => {
   const user = await authService.createUser(req.body);
-  // const token = await tokenService.generateAuthToken(user)
-  // const token = "ey.token mock up";
   res.status(httpStatus.CREATED).send({ data: user });
+});
+
+const login = expressAsyncHandler(async (req, res) => {
+  const user = await authService.login(req.body)
+  res.status(httpStatus.OK).send({ data: user });
 });
 
 export default {
   register,
+  login
 };
