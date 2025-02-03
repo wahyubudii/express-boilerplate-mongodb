@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
-// import { toJSON, paginate } from './plugins.js';
-import { roles } from '../config/roles.js';
+import { toJSON } from './utils/index.js';
+// import { roles } from '../config/roles.js';
 
 const userSchema = new mongoose.Schema(
   {
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error('Invalid email');
+          throw new Error('Invalid email format');
         }
       },
     },
@@ -35,11 +35,12 @@ const userSchema = new mongoose.Schema(
       },
       private: true, // digunakan oleh plugin toJSON
     },
-    role: {
-      type: String,
-      enum: roles,
-      default: 'user',
-    },
+    roles: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Role",
+      },
+    ],
     isEmailVerified: {
       type: Boolean,
       default: false,
@@ -51,7 +52,7 @@ const userSchema = new mongoose.Schema(
 );
 
 // Tambahkan plugin yang mengubah mongoose menjadi JSON
-// userSchema.plugin(toJSON);
+userSchema.plugin(toJSON);
 // userSchema.plugin(paginate);
 
 /**
